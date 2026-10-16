@@ -78,3 +78,7 @@ $('#proBtn').onclick = async () => {
     pollTimer = setInterval(poll, 5000);
   } catch (e) { box.innerHTML = `<p class="err">⚠️ ${esc(e.message)}</p>`; }
 };
+
+// Deep link from the Telegram bot: /?address=<token>#scan prefills and runs the scan
+{ const a = new URLSearchParams(location.search).get('address');
+  if (a) { $('#tokenAddr').value = a; $('#tokenForm').requestSubmit(); } }

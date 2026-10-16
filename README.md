@@ -145,3 +145,26 @@ safesign/
 - No auto-renew: users pay again after 30 days.
 
 **Tests:** `npm test` checks the verification logic against real historical mainnet transactions (a 6000 USDC transfer and a SOL transfer, saved in `test/fixtures` and re-fetched live when online). It covers: correct payment, underpayment, wrong recipient, missing reference, failed transaction, and that a signature can't be reused, plus the full checkout → license flow.
+
+---
+
+## Telegram bot (@SafeSignScanBot)
+
+`bot.js` is a Telegram bot that uses the same scan logic as the website (`scanner.js`). It calls the module directly, so it doesn't use the website's rate-limited API.
+
+- `/start` or `/help`: welcome message and a link to the website.
+- `/scan <address>`: risk score, the top warning flags and liquidity, with **Full report** (opens the website with the address pre-filled) and **Go Pro** buttons. `/scan` also works as a reply to a message that contains an address.
+- **Auto-detect**: paste any Solana or EVM token address in a DM and it gets scanned. In groups, auto-detect only sees every message if the bot is a group admin, or if privacy mode is turned off in @BotFather (`/setprivacy` → *Disable*). Otherwise it still answers `/scan`, @mentions and replies to the bot.
+- Light rate limit: 4 scans per minute per chat (`BOT_SCANS_PER_MIN`), and results are cached for 5 minutes.
+- `/stats` works only for the owner (`BOT_OWNER`, default `dawgypicks`).
+
+**Run it**
+```bash
+export TELEGRAM_BOT_TOKEN=123:abc     # from @BotFather; never commit it
+nohup ./run-bot.sh > bot.log 2>&1 &   # long polling with auto-restart
+```
+Optional settings: `SITE_URL` (default `https://safesign-pg8h.onrender.com`), `BOT_OWNER`, `BOT_SCANS_PER_MIN`.
+
+When it starts, the bot sets its own command list and description through the Bot API.
+
+**Important:** run exactly **one** copy of the bot per token. Do **not** start it inside the Render web service: Render can run more than one copy, and two copies polling the same token conflict (Telegram returns error 409). To host it on Render, create a separate **Background Worker** with start command `node bot.js` and `TELEGRAM_BOT_TOKEN` set as a secret, and stop any other copy first.
