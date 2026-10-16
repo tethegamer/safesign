@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SafeSign — Check before you sign</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+<header class="nav"><div class="wrap row">
+  <a class="logo" href="#">🛡️ SafeSign</a>
+  <nav><a href="#scan">Token scan</a><a href="#approvals">Approvals</a><a href="#pricing">Pricing</a></nav>
+</div></header>
+
+<section class="hero wrap">
+  <h1>Check before you <span class="grad">sign</span>.</h1>
+  <p class="sub">Paste a token or wallet address. Get a plain-English safety report in seconds — rug-pull flags, honeypots, risky approvals.</p>
+  <p class="usage" id="usage"></p>
+</section>
+
+<section id="scan" class="wrap card">
+  <h2>🔍 Token risk scanner</h2>
+  <p class="muted">Solana or EVM (Ethereum, BNB, Base, Arbitrum, Polygon…) token address.</p>
+  <form id="tokenForm" class="inrow">
+    <input id="tokenAddr" placeholder="e.g. DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263" autocomplete="off" required>
+    <button>Scan token</button>
+  </form>
+  <div id="tokenOut"></div>
+</section>
+
+<section id="approvals" class="wrap card">
+  <h2>🔐 Wallet approvals checker</h2>
+  <p class="muted">See which contracts can spend your tokens (Ethereum, BNB Chain, Base, Arbitrum, Polygon). Read-only — we never ask you to connect or sign.</p>
+  <form id="apprForm" class="inrow">
+    <input id="apprAddr" placeholder="0x… wallet address" autocomplete="off" required>
+    <button>Check approvals</button>
+  </form>
+  <div id="apprOut"></div>
+</section>
+
+<section id="pricing" class="wrap">
+  <h2 class="center">Pricing</h2>
+  <div class="plans">
+    <div class="plan"><h3>Free</h3><div class="price">$0</div>
+      <ul><li>5 scans per day</li><li>Token risk scanner</li><li>Approvals checker</li></ul>
+      <a class="btn ghost" href="#scan">Start scanning</a></div>
+    <div class="plan pro"><span class="tag">Popular</span><h3>Pro</h3><div class="price">$9<small>/mo</small></div>
+      <ul><li>Unlimited scans</li><li>Approval alerts by email (soon)</li><li>Watchlist &amp; history (soon)</li></ul>
+      <button class="btn" id="proBtn">Upgrade to Pro — pay with crypto</button>
+      <p class="small muted">9 USDC or the equivalent in SOL, via Solana Pay. 30 days, no auto-renew.</p>
+      <div id="proStatus" class="small"></div>
+      <details class="small"><summary>Already have a license key?</summary>
+        <div class="inrow"><input id="licInput" placeholder="SSPRO-…"><button id="licBtn" type="button">Activate</button></div></details></div>
+  </div>
+  <div id="checkout" class="card" hidden></div>
+</section>
+
+<footer class="wrap muted small">Data from RugCheck, GoPlus Security and DexScreener. SafeSign is informational only, not financial advice. A low score does not guarantee safety.</footer>
+<script src="app.js"></script>
+</body></html>
